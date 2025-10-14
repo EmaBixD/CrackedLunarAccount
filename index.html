@@ -1,2 +1,177 @@
-prova
-<canvas class="skin-3d drop-shadow auto-size align-top" width="276" height="368" style="cursor:move;width:276px" data-id="a34fa13d7d876ae0" data-model="classic" data-flip="false" data-cape="" data-theta="327" data-phi="35"></canvas>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lunar Account Generator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  /* Sfondo pagina */
+  body {
+    font-family: system-ui,Segoe UI,Roboto,Arial;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+
+  /* Box centrale */
+  .container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 30px 24px;
+    max-width: 760px;
+    width: 100%;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  label { display: block; margin-top: 12px; font-weight: 600 }
+  input[type=text] { width: 100%; padding: 8px; margin-top: 6px; box-sizing: border-box; border-radius: 6px; border: none; }
+  .row { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+  button { padding: 8px 12px; margin-top: 12px; border: none; border-radius: 6px; cursor: pointer; background-color: rgba(255,255,255,0.3); color: #fff; transition: background 0.3s; }
+  button:hover { background-color: rgba(255,255,255,0.5); }
+  textarea { width: 100%; height: 260px; margin-top: 12px; font-family: monospace; padding: 8px; box-sizing: border-box; border-radius: 8px; border: none; resize: vertical; }
+  .muted { font-size: 13px; color: #eee; margin-top: 6px; }
+  h2 { text-align: center; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Lunar Account Generator</h2>
+
+    <label>Username
+      <input id="username" type="text" placeholder="Enter username (3-16, letters/numbers/_)" />
+    </label>
+
+    <label>
+      <input id="autoUuid" type="checkbox" /> Auto-generate UUID (disables UUID field, random in-game skin)
+    </label>
+
+    <label>UUID
+      <input id="uuid" type="text" placeholder="Insert valid UUID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+    </label>
+    <div class="muted">This will determine the in-game skin, choose the random option or find a valid one on sites like <a href="https://www.namemc.com">namemc.com</a></div>
+
+    <div class="row">
+      <button id="generate">Generate accounts.json</button>
+      <button id="download" disabled>Download accounts.json</button>
+      <button id="copy" disabled>Copy JSON</button>
+    </div>
+
+    <textarea id="output" readonly placeholder="The content of accounts.json will appear here"></textarea>
+  </div>
+
+<script>
+function validUsername(u){
+  return /^[A-Za-z0-9_]{3,16}$/.test(u);
+}
+function validUUID(u){
+  return /^[0-9a-fA-F]{32}$/.test(u); // senza trattini
+}
+function generateUUIDv4(){
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  return Array.from(bytes, b => b.toString(16).padStart(2,'0')).join('');
+}
+function buildAccountsJson(username, uuid){
+  const account = {
+    accessToken: uuid,
+    accessTokenExpiresAt: "2050-07-02T10:56:30.717167800Z",
+    eligibleForMigration: false,
+    hasMultipleProfiles: false,
+    legacy: true,
+    persistent: true,
+    userProperites: [],
+    localId: uuid,
+    minecraftProfile: { id: uuid, name: username },
+    remoteId: uuid,
+    type: "Xbox",
+    username: username
+  };
+  const obj = {
+    activeAccountLocalId: uuid,
+    accounts: {}
+  };
+  obj.accounts[uuid] = account;
+  return obj;
+}
+
+const usernameEl = document.getElementById('username');
+const uuidEl = document.getElementById('uuid');
+const autoEl = document.getElementById('autoUuid');
+const generateBtn = document.getElementById('generate');
+const downloadBtn = document.getElementById('download');
+const copyBtn = document.getElementById('copy');
+const outputEl = document.getElementById('output');
+
+let generatedUUID = ''; // conserva UUID generato
+
+autoEl.addEventListener('change', ()=> {
+  if(autoEl.checked){
+    if(!generatedUUID) generatedUUID = generateUUIDv4();
+    uuidEl.value = generatedUUID;
+    uuidEl.disabled = true;
+  } else {
+    uuidEl.disabled = false;
+  }
+});
+
+generateBtn.addEventListener('click', ()=>{
+  const username = usernameEl.value.trim();
+  let uuid = uuidEl.value.trim();
+
+  if(!validUsername(username)){
+    outputEl.value = 'Invalid username. Must be 3-16 characters: letters, numbers or underscore.';
+    downloadBtn.disabled = true;
+    copyBtn.disabled = true;
+    return;
+  }
+
+  if(autoEl.checked){
+    uuid = generatedUUID;
+  }
+
+  if(!validUUID(uuid)){
+    outputEl.value = 'Invalid UUID. Must be 32 hexadecimal characters (no dashes "-").';
+    downloadBtn.disabled = true;
+    copyBtn.disabled = true;
+    return;
+  }
+
+  const jsonObj = buildAccountsJson(username, uuid);
+  const pretty = JSON.stringify(jsonObj, null, 2);
+  outputEl.value = pretty;
+  downloadBtn.disabled = false;
+  copyBtn.disabled = false;
+});
+
+downloadBtn.addEventListener('click', ()=>{
+  const blob = new Blob([outputEl.value], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'accounts.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
+copyBtn.addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(outputEl.value);
+    copyBtn.textContent = 'Copied';
+    setTimeout(()=> copyBtn.textContent = 'Copia JSON',1200);
+  }catch(e){
+    copyBtn.textContent = 'Error';
+    setTimeout(()=> copyBtn.textContent = 'Copia JSON',1200);
+  }
+});
+</script>
+</body>
+</html>
