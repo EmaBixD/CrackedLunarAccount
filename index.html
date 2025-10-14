@@ -14,7 +14,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: url('\media\wallpaper.png') no-repeat center center fixed;
+    background-size: cover;
   }
 
   /* Box centrale */
@@ -63,6 +64,8 @@
     </div>
 
     <textarea id="output" readonly placeholder="The content of accounts.json will appear here"></textarea>
+  
+    <div class="muted">Replace or edit this file at: "C:\Users\YourWindowsUsernameHere\.lunarclient\settings\game"</a></div>
   </div>
 
 <script>
@@ -109,12 +112,10 @@ const downloadBtn = document.getElementById('download');
 const copyBtn = document.getElementById('copy');
 const outputEl = document.getElementById('output');
 
-let generatedUUID = ''; // conserva UUID generato
-
 autoEl.addEventListener('change', ()=> {
   if(autoEl.checked){
-    if(!generatedUUID) generatedUUID = generateUUIDv4();
-    uuidEl.value = generatedUUID;
+    const newUUID = generateUUIDv4();  // genera ogni volta
+    uuidEl.value = newUUID;
     uuidEl.disabled = true;
   } else {
     uuidEl.disabled = false;
