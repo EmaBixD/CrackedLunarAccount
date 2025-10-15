@@ -2,7 +2,8 @@
 A tool to generate accounts compatible with the official Lunar Client by producing an `accounts.json` file you can drop into your Lunar Client settings.
 
 ## How it works  
-Credits: based on work by [Whatlify](https://github.com/Whatlify/CrackedLunarAccountTool?tab=readme-ov-file)
+Credits: based on work by <a href="https://github.com/Whatlify/CrackedLunarAccountTool?tab=readme-ov-file" title="Source" target="_blank">Whatlify</a>
+
 
 Lunar Client does not perform any online authentication or license check against Microsoft servers when loading local account data.  
 Instead, it simply reads the `accounts.json` file from your user directory and loads every entry it finds.  
@@ -11,20 +12,22 @@ This means any properly formatted UUID value can be used as a placeholder.
 The web generator automatically creates a valid JSON structure with those placeholder values, allowing the client to treat them as legitimate local accounts during startup.
 
 ## Getting started
-1. Download and install the official Lunar Client from the [official download page](https://www.lunarclient.com/download "Download Lunar").  
-2. Open my web account generator: [https://emabixd.github.io/CrackedLunarAccount/](https://emabixd.github.io/CrackedLunarAccount "Account Generator")  
+1. Download and install the official Lunar Client from the <a href="https://www.lunarclient.com/download" title="Download Lunar" target="_blank">official download page</a>
+2. Open my web account generator: <a href="https://emabixd.github.io/CrackedLunarAccount" title="Account Generator" target="_blank">https://emabixd.github.io/CrackedLunarAccount</a>
 3. In the generator UI choose:
    - a **Username** (3–16 chars, letters/numbers/underscore), and  
    - either paste a **32-character UUID** (no dashes) or check **Auto-generate UUID** to create one.  
 4. Click **Generate accounts.json** and review the output.  
 5. Back up your existing Lunar Client `accounts.json` (if present).  
-6. Replace the file at: `C:\Users\%USERNAME%\.lunarclient\settings\game` with the generated file.
+6. Replace the file at:
+   - `Windows: C:\Users\%USERNAME%\.lunarclient\settings\game`
+   - `macOS: ~/Users/$USER/.lunarclient/settings/game`
 7. Restart Lunar Client.
 
 #### Example `accounts.json` structure
 
 <details>
-  <summary><b>📄 Click to view example <code>accounts.json</code></b></summary>
+  <summary><b> 📄 Click to view example <code>accounts.json</code></b></summary>
 
 ```json
 {
@@ -50,9 +53,13 @@ The web generator automatically creates a valid JSON structure with those placeh
 </details>
 
 ## Notes
-As of October 15, 2025 the web generator has restored functionality for creating local accounts.json entries. You may still see an in-game announcement every ~2 minutes:
+As of October 15, 2025 this method still works for Windows and macOS, though you may occasionally see a warning in the main menu and an in-game announcement every couple of minutes.
 
-![Local Image](/media/banner.png)
+<p>
+  <img src="media/popup.png" title="Menu" width="48%"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="media/banner.png" title="Game" width="48%"/>
+</p>
 
 > *I'm already working on a way to avoid that...*
 
