@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Lunar Account Generator</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
   <style>
-    /* --- Corpo pagina e sfondo --- */
     body {
       font-family: system-ui, Segoe UI, Roboto, Arial;
       margin: 0;
@@ -14,11 +14,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: url('./media/wallpaper.png') no-repeat center center fixed;
+      background-color: grey;
       background-size: cover;
     }
 
-    /* --- Effetto scia cursore --- */
     #particles {
       position: fixed;
       top: 0;
@@ -29,7 +28,6 @@
       pointer-events: none;
     }
 
-    /* --- Contenitore principale con effetto vetro --- */
     .container {
       position: relative;
       z-index: 1;
@@ -39,7 +37,7 @@
       padding: 32px 26px;
       width: 100%;
       max-width: 580px;
-      min-width: 462px; // dimensioni limite
+      min-width: 330px;
       color: #fff;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       margin: 20px;
@@ -50,7 +48,6 @@
       margin-bottom: 20px;
     }
 
-    /* --- Input e textarea --- */
     input[type=text],
     textarea {
       width: 100%;
@@ -85,12 +82,11 @@
 
     textarea {
       resize: vertical;
-      height: 120px;
+      height: 100px;
       min-height: 43px;
-      max-height: 383px // dimensioni limite
+      max-height: 383px
     }
 
-    /* --- Pulsanti --- */
     .row {
       display: flex;
       gap: 8px;
@@ -117,7 +113,6 @@
       transform: scale(0.98);
     }
 
-    /* --- Testo descrittivo e percorso con animazione --- */
     .muted {
       font-size: 13px;
       color: #eee;
@@ -128,17 +123,14 @@
     @media (max-width: 480px) {
       .container {
         padding: 24px;
-        //min-width: unset;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Effetto scia -->
   <canvas id="particles"></canvas>
 
-  <!-- Contenitore -->
   <div class="container">
     <h2>Lunar Account Generator</h2>
 
@@ -169,7 +161,6 @@
   </div>
 
   <script>
-    // --- Scia cursore ---
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -213,7 +204,6 @@
     }
     draw();
 
-    // --- Logica generatore ---
     const els = {
       username: document.getElementById('username'),
       uuid: document.getElementById('uuid'),
@@ -297,7 +287,6 @@
       }
     });
 
-    // --- Testo percorso che cambia con dissolvenza ---
     const pathText = document.getElementById('pathText');
     const texts = [
       'File location Windows: <code>C:\\Users\\%USERNAME%\\.lunarclient\\settings\\game</code>',
