@@ -13,7 +13,8 @@ The web generator automatically creates a valid JSON structure with those placeh
 
 ## Getting started
 1. Download and install the official Lunar Client from the <a href="https://www.lunarclient.com/download" title="Download Lunar" target="_blank">official download page</a>
-2. Open my web account generator: <a href="https://emabixd.github.io/CrackedLunarAccount" title="Account Generator" target="_blank">https://emabixd.github.io/CrackedLunarAccount</a>
+
+2. Open my web <a href="https://emabixd.github.io/CrackedLunarAccount" title="Lunar Account Generator" target="_blank">account generator</a>
 3. In the generator UI choose:
    - a **Username** (3–16 chars, letters/numbers/underscore), and  
    - either paste a **32-character UUID** (no dashes) or check **Auto-generate UUID** to create one.  
@@ -25,10 +26,9 @@ The web generator automatically creates a valid JSON structure with those placeh
 7. Restart Lunar Client.
 
 #### Example `accounts.json` structure
-
 <details>
   <summary><b> 📄 Click to view example <code>accounts.json</code></b></summary>
-
+   
 ```json
 {
   "activeAccountLocalId": "5da4ae0b6ee9417dae6841982f3a68ba",
