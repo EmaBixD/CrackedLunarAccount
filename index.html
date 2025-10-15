@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <title>Lunar Account Generator</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
   <style>
     /* --- Corpo pagina e sfondo --- */
     body {
@@ -40,7 +39,7 @@
       padding: 32px 26px;
       width: 100%;
       max-width: 580px;
-      min-width: 462px;
+      min-width: 462px; // dimensioni limite
       color: #fff;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       margin: 20px;
@@ -86,8 +85,9 @@
 
     textarea {
       resize: vertical;
-      min-height: 120px;
-      max-height: 320px;
+      height: 120px;
+      min-height: 43px;
+      max-height: 383px // dimensioni limite
     }
 
     /* --- Pulsanti --- */
