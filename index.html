@@ -1,325 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <title>Lunar Account Generator</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <title>Lunar Account Generator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <style>
-        /* --- Stile di base della pagina e sfondo --- */
-        body {
-            font-family: system-ui, Segoe UI, Roboto, Arial;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('./media/wallpaper.png') no-repeat center center fixed;
-            background-size: cover;
-        }
+  <style>
+    /* --- Corpo pagina e sfondo --- */
+    body {
+      font-family: system-ui, Segoe UI, Roboto, Arial;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('./media/wallpaper.png') no-repeat center center fixed;
+      background-size: cover;
+    }
 
-        /* --- Box principale con effetto blur --- */
-        .container {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 30px 24px;
-            max-width: 590px;
-            min-width: 465px;
-            width: 100%;
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 1;
-        }
+    /* --- Effetto scia cursore --- */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        /* --- Stili generali per etichette e input --- */
-        label {
-            display: block;
-            margin-top: 12px;
-            font-weight: 600;
-        }
+    /* --- Contenitore principale con effetto vetro --- */
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 32px 26px;
+      width: 100%;
+      max-width: 580px;
+      min-width: 462px;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      margin: 20px;
+    }
 
-        input[type=text] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 6px;
-            box-sizing: border-box;
-            border-radius: 6px;
-            border: none;
-        }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        /* --- Layout dei pulsanti --- */
-        .row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
+    /* --- Input e textarea --- */
+    input[type=text],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-family: inherit;
+      transition: border 0.2s, background 0.2s;
+    }
 
-        /* --- Stile dei pulsanti --- */
-        button {
-            padding: 8px 12px;
-            margin-top: 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.3);
-            color: #fff;
-            transition: background 0.3s;
-        }
+    input[type=text]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-        }
+    input[type=text]:disabled {
+      background: rgba(0, 0, 0, 0.25);
+      color: #ccc;
+    }
 
-        /* --- Area di output JSON --- */
-        textarea {
-            width: 100%;
-            margin-top: 12px;
-            font-family: monospace;
-            padding: 8px;
-            box-sizing: border-box;
-            border-radius: 8px;
-            border: none;
-            resize: vertical;
-            height: 200px;
-            min-height: 36px;
-            max-height: 336px;
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
+    input[type=text]::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
 
-        /* --- Testo secondario e animazione del percorso --- */
-        .muted {
-            font-size: 13px;
-            color: #eee;
-            margin-top: 6px;
-            transition: opacity 1s ease;
-        }
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      max-height: 320px;
+    }
 
-        /* --- Titolo principale --- */
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    /* --- Pulsanti --- */
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
 
-        /* --- Effetto particelle e cursore luminoso --- */
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+    button {
+      flex: 1;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
 
-        /* --- Input disabilitato e placeholder --- */
-        input[type=text]:disabled {
-            background-color: rgba(0, 0, 0, 0.25);
-            color: #ccc;
-        }
+    button:hover {
+      background: rgba(255, 255, 255, 0.45);
+    }
 
-        input[type=text]::placeholder,
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
+    button:active {
+      transform: scale(0.98);
+    }
 
-        @media (max-width: 480px) {
-            .container {
-                //min-width: unset;
-                padding: 20px;
-            }
-        }
-    </style>
+    /* --- Testo descrittivo e percorso con animazione --- */
+    .muted {
+      font-size: 13px;
+      color: #eee;
+      margin-top: 6px;
+      transition: opacity 1s ease;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 24px;
+        //min-width: unset;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Canvas per effetto scia del cursore -->
-    <canvas id="particles"></canvas>
+  <!-- Effetto scia -->
+  <canvas id="particles"></canvas>
 
-    <!-- Box principale del generatore -->
-    <div class="container">
-        <h2>Lunar Account Generator</h2>
+  <!-- Contenitore -->
+  <div class="container">
+    <h2>Lunar Account Generator</h2>
 
-        <!-- Input username -->
-        <label for="username">Username</label>
-        <input id="username" type="text" placeholder="Enter username (3–16, letters/numbers/_)" />
+    <label for="username">Username</label>
+    <input id="username" type="text" placeholder="Enter username (3–16, letters/numbers/_)" />
 
-        <!-- Checkbox UUID automatico -->
-        <label><input id="autoUuid" type="checkbox" /> Auto-generate UUID (disables UUID field, random skin)</label>
+    <label><input id="autoUuid" type="checkbox" /> Auto-generate UUID (disables UUID field, random skin)</label>
 
-        <!-- Input UUID -->
-        <label for="uuid">UUID</label>
-        <input id="uuid" type="text" placeholder="Insert valid UUID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+    <label for="uuid">UUID</label>
+    <input id="uuid" type="text" placeholder="Insert valid UUID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
 
-        <div class="muted">This determines the in-game skin. Use a valid one from <a href="https://www.namemc.com" target="_blank">namemc.com</a>.</div>
-
-        <!-- Pulsanti principali -->
-        <div class="row">
-            <button id="generate">Generate accounts.json</button>
-            <button id="download" disabled>Download</button>
-            <button id="copy" disabled>Copy</button>
-        </div>
-
-        <!-- Output JSON -->
-        <textarea id="output" readonly placeholder="accounts.json will appear here"></textarea>
-
-        <!-- Percorso con testo che cambia -->
-        <div class="muted" id="pathText">
-            File location Windows: <code>C:\Users\%USERNAME%\.lunarclient\settings\game</code>
-        </div>
+    <div class="muted">
+      This determines the in-game skin. Use a valid one from
+      <a href="https://www.namemc.com" target="_blank" style="color:#fff;">namemc.com</a>.
     </div>
 
-    <script>
-        // --- Effetto scia del cursore --- 
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = {
-            x: 0,
-            y: 0
-        };
+    <div class="row">
+      <button id="generate">Generate accounts.json</button>
+      <button id="download" disabled>Download</button>
+      <button id="copy" disabled>Copy</button>
+    </div>
 
-        function resize() {
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
-        }
-        addEventListener('resize', resize);
-        resize();
-        addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            for (let i = 0; i < 4; i++) {
-                particles.push({
-                    x: mouse.x,
-                    y: mouse.y,
-                    size: Math.random() * 3 + 1,
-                    vx: (Math.random() - 0.5) * 1.5,
-                    vy: (Math.random() - 0.5) * 1.5,
-                    alpha: 1
-                });
-            }
-        });
+    <textarea id="output" readonly placeholder="accounts.json will appear here"></textarea>
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.alpha -= 0.02;
-                if (p.alpha <= 0) return particles.splice(i, 1);
-                ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
-        // --- Gestione logica generatore --- 
-        const els = {
-            username: document.getElementById('username'),
-            uuid: document.getElementById('uuid'),
-            auto: document.getElementById('autoUuid'),
-            generate: document.getElementById('generate'),
-            download: document.getElementById('download'),
-            copy: document.getElementById('copy'),
-            output: document.getElementById('output')
-        };
-        let generatedUUID = '';
-        const validUsername = u => /^[A-Za-z0-9_]{3,16}$/.test(u);
-        const validUUID = u => /^[0-9a-fA-F]{32}$/.test(u);
-        const generateUUIDv4 = () =>
-            Array.from(crypto.getRandomValues(new Uint8Array(16)), (b, i) =>
-                (i === 6 ? (b & 0x0f) | 0x40 : i === 8 ? (b & 0x3f) | 0x80 : b)
-                .toString(16).padStart(2, '0')).join('');
-        const buildAccountsJson = (username, uuid) => ({
-            activeAccountLocalId: uuid,
-            accounts: {
-                [uuid]: {
-                    accessToken: uuid,
-                    accessTokenExpiresAt: "2050-07-02T10:56:30.717167800Z",
-                    eligibleForMigration: false,
-                    hasMultipleProfiles: false,
-                    legacy: true,
-                    persistent: true,
-                    localId: uuid,
-                    minecraftProfile: {
-                        id: uuid,
-                        name: username
-                    },
-                    remoteId: uuid,
-                    type: "Xbox",
-                    username
-                }
-            }
-        });
+    <div class="muted" id="pathText">
+      File location Windows: <code>C:\Users\%USERNAME%\.lunarclient\settings\game</code>
+    </div>
+  </div>
 
-        function disableActions(state = true) {
-            els.download.disabled = state;
-            els.copy.disabled = state;
+  <script>
+    // --- Scia cursore ---
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: 0, y: 0 };
+
+    function resize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    }
+    addEventListener('resize', resize);
+    resize();
+
+    addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      for (let i = 0; i < 4; i++) {
+        particles.push({
+          x: mouse.x,
+          y: mouse.y,
+          size: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5,
+          alpha: 1
+        });
+      }
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0) return particles.splice(i, 1);
+        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // --- Logica generatore ---
+    const els = {
+      username: document.getElementById('username'),
+      uuid: document.getElementById('uuid'),
+      auto: document.getElementById('autoUuid'),
+      generate: document.getElementById('generate'),
+      download: document.getElementById('download'),
+      copy: document.getElementById('copy'),
+      output: document.getElementById('output')
+    };
+
+    let generatedUUID = '';
+    const validUsername = u => /^[A-Za-z0-9_]{3,16}$/.test(u);
+    const validUUID = u => /^[0-9a-fA-F]{32}$/.test(u);
+    const generateUUIDv4 = () =>
+      Array.from(crypto.getRandomValues(new Uint8Array(16)), (b, i) =>
+        (i === 6 ? (b & 0x0f) | 0x40 : i === 8 ? (b & 0x3f) | 0x80 : b)
+        .toString(16).padStart(2, '0')).join('');
+
+    const buildAccountsJson = (username, uuid) => ({
+      activeAccountLocalId: uuid,
+      accounts: {
+        [uuid]: {
+          accessToken: uuid,
+          accessTokenExpiresAt: "2050-07-02T10:56:30.717167800Z",
+          eligibleForMigration: false,
+          hasMultipleProfiles: false,
+          legacy: true,
+          persistent: true,
+          localId: uuid,
+          minecraftProfile: { id: uuid, name: username },
+          remoteId: uuid,
+          type: "Xbox",
+          username
         }
-        els.auto.addEventListener('change', () => {
-            generatedUUID = els.auto.checked ? generateUUIDv4() : '';
-            els.uuid.disabled = els.auto.checked;
-            els.uuid.value = generatedUUID;
-        });
-        els.generate.addEventListener('click', () => {
-            const username = els.username.value.trim();
-            const uuid = els.auto.checked ? generatedUUID : els.uuid.value.trim();
-            if (!validUsername(username))
-                return els.output.value = 'Invalid username. Use 3–16 chars: letters, numbers, _.', disableActions();
-            if (!validUUID(uuid))
-                return els.output.value = 'Invalid UUID. Must be 32 hex chars.', disableActions();
-            const json = JSON.stringify(buildAccountsJson(username, uuid), null, 2);
-            els.output.value = json;
-            disableActions(false);
-        });
-        els.download.addEventListener('click', () => {
-            const blob = new Blob([els.output.value], {
-                type: 'application/json'
-            });
-            const a = Object.assign(document.createElement('a'), {
-                href: URL.createObjectURL(blob),
-                download: 'accounts.json'
-            });
-            document.body.appendChild(a);
-            a.click();
-            URL.revokeObjectURL(a.href);
-            a.remove();
-        });
-        els.copy.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(els.output.value);
-                els.copy.textContent = 'Copied';
-                setTimeout(() => els.copy.textContent = 'Copy', 1200);
-            } catch {
-                els.copy.textContent = 'Error';
-                setTimeout(() => els.copy.textContent = 'Copy', 1200);
-            }
-        });
-        // --- Testo che cambia con dissolvenza --- 
-        const pathText = document.getElementById('pathText');
-        const texts = [
-            'File location Windows: <code>C:\\Users\\%USERNAME%\\.lunarclient\\settings\\game</code>',
-            'File location macOS: <code>~/Users/$USER/.lunarclient/settings/game</code>'
-        ];
-        let index = 0;
-        setInterval(() => {
-            pathText.style.opacity = 0;
-            setTimeout(() => {
-                index = (index + 1) % texts.length;
-                pathText.innerHTML = texts[index];
-                pathText.style.opacity = 1;
-            }, 2000);
-        }, 8000);
-    </script>
+      }
+    });
+
+    function disableActions(state = true) {
+      els.download.disabled = state;
+      els.copy.disabled = state;
+    }
+
+    els.auto.addEventListener('change', () => {
+      generatedUUID = els.auto.checked ? generateUUIDv4() : '';
+      els.uuid.disabled = els.auto.checked;
+      els.uuid.value = generatedUUID;
+    });
+
+    els.generate.addEventListener('click', () => {
+      const username = els.username.value.trim();
+      const uuid = els.auto.checked ? generatedUUID : els.uuid.value.trim();
+      if (!validUsername(username))
+        return els.output.value = 'Invalid username. Use 3–16 chars: letters, numbers, _.', disableActions();
+      if (!validUUID(uuid))
+        return els.output.value = 'Invalid UUID. Must be 32 hex chars.', disableActions();
+
+      const json = JSON.stringify(buildAccountsJson(username, uuid), null, 2);
+      els.output.value = json;
+      disableActions(false);
+    });
+
+    els.download.addEventListener('click', () => {
+      const blob = new Blob([els.output.value], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'accounts.json';
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(a.href);
+      a.remove();
+    });
+
+    els.copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(els.output.value);
+        els.copy.textContent = 'Copied';
+        setTimeout(() => els.copy.textContent = 'Copy', 1200);
+      } catch {
+        els.copy.textContent = 'Error';
+        setTimeout(() => els.copy.textContent = 'Copy', 1200);
+      }
+    });
+
+    // --- Testo percorso che cambia con dissolvenza ---
+    const pathText = document.getElementById('pathText');
+    const texts = [
+      'File location Windows: <code>C:\\Users\\%USERNAME%\\.lunarclient\\settings\\game</code>',
+      'File location macOS: <code>~/Users/$USER/.lunarclient/settings/game</code>'
+    ];
+    let index = 0;
+    setInterval(() => {
+      pathText.style.opacity = 0;
+      setTimeout(() => {
+        index = (index + 1) % texts.length;
+        pathText.innerHTML = texts[index];
+        pathText.style.opacity = 1;
+      }, 2000);
+    }, 8000);
+  </script>
 </body>
-
 </html>
