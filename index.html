@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <link rel="icon" href="./media/favicon.ico" type="image/x-icon">
   <title>Lunar Account Generator</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -120,6 +121,20 @@
       transition: opacity 1s ease;
     }
 
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 12px 0;
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      font-size: 14px;
+      backdrop-filter: blur(8px);
+      z-index: 2;
+    }
+    
     @media (max-width: 480px) {
       .container {
         padding: 24px;
@@ -159,6 +174,10 @@
       File location Windows: <code>C:\Users\%USERNAME%\.lunarclient\settings\game</code>
     </div>
   </div>
+
+  <footer>
+    © 2025 Lunar Account Generator • Developed by EmaBixD
+  </footer>
 
   <script>
     const canvas = document.getElementById('particles');
